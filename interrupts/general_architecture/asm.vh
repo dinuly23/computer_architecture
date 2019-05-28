@@ -32,6 +32,10 @@
 
 `define ASM_J(IMM) {`OPCODE_J, IMM}
 
-`define ASM_NOP {`OPCODE_ADDI, 2'd0, 2'd0, 6'd0}
+`define ASM_NOP {`OPCODE_ADDI, 2'b0, 2'b0, 6'b0}
+`define ASM_INTERRUPTS_J {`INTERRUPTS_J, 10'b0}
+`define ASM_INTERRUPTS_ADDR {`INTERRUPTS_ADDR, 10'b0}
+`define ASM_SYSCALL {`SYSCALL, 10'b0}
+
 
 `endif // __ASM_VH

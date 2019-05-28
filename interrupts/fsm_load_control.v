@@ -1,4 +1,4 @@
-module fsm_load_control(s1_step1, s2_step1,t_step1, opcode_step2, opcode_step1, opcode_step4, t_step2, load_hazard_signal);
+module fsm_load_control(s1_step1, s2_step1,t_step1, opcode_step2, opcode_step1, opcode_step4, t_step2, load_hazard_signal, interrupts_signal);
 	input [1:0] s1_step1;
 	input [1:0] s2_step1;
 	input [1:0] t_step1; 
@@ -6,6 +6,7 @@ module fsm_load_control(s1_step1, s2_step1,t_step1, opcode_step2, opcode_step1, 
 	input [5:0] opcode_step1;
 	input [5:0] opcode_step4;
 	input [1:0] t_step2;
+	input interrupts_signal;
 	output reg load_hazard_signal;
 	
 	reg [1:0] state;
@@ -35,7 +36,8 @@ module fsm_load_control(s1_step1, s2_step1,t_step1, opcode_step2, opcode_step1, 
 		2'b01:
 			begin
 				if(opcode_step4 == `OPCODE_LW) load_hazard_signal = 0;
-				state= (opcode_step4 == `OPCODE_LW) ? 2'b00 : 2'b01;
+				if(interrupts_signal) load_hazard_signal = 0; 
+				state= ((opcode_step4 == `OPCODE_LW) || interrupts_signal) ? 2'b00 : 2'b01;
 			end
 			
 		endcase
